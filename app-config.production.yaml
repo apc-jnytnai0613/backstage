@@ -55,8 +55,26 @@ auth:
         signIn:
           resolvers:
             - resolver: usernameMatchingUserEntityName
+    microsoft:
+      development:
+        clientId: ${AZURE_CLIENT_ID}
+        clientSecret: ${AZURE_CLIENT_SECRET}
+        tenantId: ${AZURE_TENANT_ID}
+
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters:
+        - name: My AKS cluster
+          url: https://aks-taniai-backstage-01-dns-54z1o2r0.hcp.japaneast.azmk8s.io:443
+          authProvider: aks
+          skipTLSVerify: true
 
 catalog:
+  rules:
+    - allow: [Component, API, Location, Template]
   providers:
     githubOrg:
       id: 'github-local'
